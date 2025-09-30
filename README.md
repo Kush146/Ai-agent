@@ -25,7 +25,7 @@ This project is a full-stack web application that implements an AI Agent capable
 1. Clone the repository:
    bash
    git clone https://github.com/Kush146/Ai-agent
-   cd YOUR_REPOSITORY
+
    
 
 2. Install backend dependencies:
