@@ -1,31 +1,40 @@
+const express = require('express');
+const router = express.Router();
 const mongoose = require('mongoose');
+const Brief = require('../models/Brief');
+const { createTasksFromPlan } = require('../controllers/taskController');  // Import task creation function
 
-const plannedTaskSchema = new mongoose.Schema(
-  {
-    title: { type: String, required: true, trim: true },
-    description: { type: String, required: true, trim: true },
-    area: {
-      type: String,
-      enum: ['frontend', 'backend'],
-      required: true,
-      index: true,
-    },
-    status: {
-      type: String,
-      enum: ['planned', 'created'],
-      default: 'planned',
-    },
-  },
-  { _id: false }
-);
+/**
+ * POST /api/brief/plan
+ * Body: { brief: string }
+ * - Accepts a project brief and breaks it into a structured plan
+ * - Creates tasks based on the plan
+ */
+router.post('/plan', async (req, res) => {
+  try {
+    const { brief } = req.body || {};
+    if (!brief || !String(brief).trim()) {
+      return res.status(400).json({ error: 'brief is required' });
+    }
 
-const briefSchema = new mongoose.Schema(
-  {
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
-    brief: { type: String, required: true, trim: true },
-    plan: [plannedTaskSchema],
-  },
-  { timestamps: true }
-);
+    // Generate the plan from the brief
+    const plan = planFromBrief(brief);
+    
+    // Save the brief and plan to the database
+    const briefDoc = await Brief.create({
+      userId: req.user.id,
+      brief: String(brief).trim(),
+      plan,
+    });
 
-module.exports = mongoose.model('Brief', briefSchema);
+    // Create tasks from the plan
+    const tasks = await createTasksFromPlan(plan, req.user.id);
+
+    return res.status(201).json({ brief: briefDoc, tasks });
+  } catch (err) {
+    console.error('Error committing plan:', err);
+    return res.status(500).json({ error: err.message || 'Failed to commit plan' });
+  }
+});
+
+module.exports = router;

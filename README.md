@@ -57,9 +57,8 @@ This project is a full-stack web application that implements an AI Agent capable
    npm start
    
 
-### Deployment:
-- **Frontend**: You can deploy the React app on platforms like **Vercel** or **Netlify**.
-- **Backend**: The backend can be deployed on **Heroku** or **Render**.
+
+ Demo Video (Loom): https://www.loom.com/share/5a017aa1636a4092b991ffa3d376ccc9?sid=d80928f9-52a0-43d5-ac2c-ae40ded8202f
 
 
 

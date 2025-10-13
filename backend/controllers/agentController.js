@@ -101,6 +101,20 @@ function planFromBrief(brief) {
 }
 
 /**
+ * Review the generated task plan
+ * - Ensures all tasks have a valid area, title, and description
+ */
+function reviewPlan(plan) {
+  // Example review logic: ensure every task has an area and description.
+  for (const task of plan) {
+    if (!task.area || !task.description) {
+      return { error: `Task "${task.title}" is missing area or description.` };
+    }
+  }
+  return { success: true };
+}
+
+/**
  * POST /api/agent/plan
  * body: { brief: string }
  * returns: created Brief doc with plan[]
@@ -113,6 +127,12 @@ async function createPlan(req, res) {
     }
 
     const plan = planFromBrief(brief);
+    const review = reviewPlan(plan); // Run review on plan
+
+    if (review.error) {
+      return res.status(400).json({ error: review.error });
+    }
+
     const doc = await Brief.create({
       userId: req.user.id,
       brief: String(brief).trim(),
@@ -174,16 +194,21 @@ async function commitPlan(req, res) {
     const created = [];
 
     for (const p of toCreate) {
+      // Validate task before committing
+      if (!p.title || !p.area || !p.description) {
+        return res.status(400).json({ error: `Task "${p.title}" is missing required information.` });
+      }
+
       const task = await Task.create({
         userId: req.user.id,
         name: `[${p.area}] ${p.title}`,
         description: p.description,
       });
       created.push(task);
-      p.status = 'created';
+      p.status = 'created'; // Update the status of the task
     }
 
-    await brief.save();
+    await brief.save(); // Save the updated brief
 
     return res.json({ ok: true, createdCount: created.length, tasks: created, brief });
   } catch (err) {

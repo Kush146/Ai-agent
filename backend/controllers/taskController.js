@@ -85,4 +85,34 @@ async function deleteTask(req, res) {
   }
 }
 
-module.exports = { createTask, getTasks, updateTask, deleteTask };
+// New function to handle batch task creation from the plan
+async function createTasksFromPlan(plan, userId) {
+  try {
+    const createdTasks = [];
+
+    for (const taskPlan of plan) {
+      // Create tasks from plan
+      const newTask = await Task.create({
+        userId,
+        name: `[${taskPlan.area}] ${taskPlan.title}`,
+        description: taskPlan.description,
+        area: taskPlan.area, // Assign area (frontend or backend)
+      });
+
+      createdTasks.push(newTask);
+    }
+
+    return createdTasks;
+  } catch (error) {
+    console.error('createTasksFromPlan error:', error);
+    throw new Error('Failed to create tasks from plan');
+  }
+}
+
+module.exports = {
+  createTask,
+  getTasks,
+  updateTask,
+  deleteTask,
+  createTasksFromPlan, // Expose the new function to handle task creation from the plan
+};
