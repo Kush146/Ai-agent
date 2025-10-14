@@ -4,8 +4,8 @@ import TaskForm from './components/TaskForm';
 import Login from './components/Login';
 import CoordinatorAgent from './components/CoordinatorAgent';
 
-// Base URL for your API
-const API_BASE = 'http://localhost:5000';
+// Use environment variable for API base URL (default to local if not set)
+const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:5000';
 
 function authHeaders() {
   const token = localStorage.getItem('token') || '';

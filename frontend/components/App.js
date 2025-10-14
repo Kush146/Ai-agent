@@ -8,8 +8,8 @@ export default function App(){
 
   // Point this to your backend root
   const apiBase = useMemo(() => {
-    // change here if you need different base, e.g. env var
-    return 'http://localhost:5000';
+    // Use environment variable for API base URL (default to localhost for development)
+    return process.env.REACT_APP_API_BASE || 'http://localhost:5000';
   }, []);
 
   function handleLogout(){
