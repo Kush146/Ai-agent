@@ -68,7 +68,8 @@ The AI Agent is responsible for accepting a high-level project brief, breaking i
 6. Run the frontend development server:
    bash
    parcel index.html 
-   
+
+7. Done
 
 ## Demo Video (Loom):
 [Watch the demo video](https://www.loom.com/share/5a017aa1636a4092b991ffa3d376ccc9?sid=d80928f9-52a0-43d5-ac2c-ae40ded8202f)
