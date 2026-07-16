@@ -1,7 +1,7 @@
 
 # AI Agent Project
 
-This project is a full-stack web application that implements an AI Agent capable of translating high-level project briefs into concrete technical tasks. The solution includes specialized sub-agents responsible for frontend and backend development.
+This project is a full-stack web application that implements an AI Agent capable of translating high-level project briefs into concrete technical tasks. The solution includes specialized sub-agents responsible for frontend and backend development.all changes are
 
 ## Features
 - Coordinator Agent: Accepts project briefs and breaks them into well-defined tasks.
