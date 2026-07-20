@@ -71,5 +71,7 @@ The AI Agent is responsible for accepting a high-level project brief, breaking i
 
 7. Done
 
+necessary this link or not?
+
 ## Demo Video (Loom):
 [Watch the demo video](https://www.loom.com/share/5a017aa1636a4092b991ffa3d376ccc9?sid=d80928f9-52a0-43d5-ac2c-ae40ded8202f)
